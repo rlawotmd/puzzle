@@ -94,7 +94,6 @@ int main()
 	levelSelectMenu();
 	scanf("%d", &level);
 	if(level < 1 || level > 5) goto Select;
-	int n;
 	int row, col;
 	
 	if(level == 1)
@@ -126,8 +125,6 @@ int main()
 	srand((unsigned int)time(NULL));
 	
 		int puzzleNum[row][col] = {0};
-		int inputNum;
-		int inputCount = 0;
 		int number = 1;
 		
 		for (int i = 0; i < row; i++)
@@ -138,7 +135,7 @@ int main()
 				number++;
 			}			
 		}
-		puzzleNum[row-1][col-1] = 0;  
+		puzzleNum[row-1][col-1] = 0;
 	
 		for (int i = 0; i < 100; i++)
 		{
@@ -172,14 +169,6 @@ int main()
 				}
 			}
 		}
-/*	for(int i = 0; i < row; i++)
-	{
-		for(int j = 0; j < col; j++)
-		{
-			printf("%3d ", puzzleNum[i][j]);
-		}
-		printf("\n");
-	}*/
 	
 	int ending[row][col];
 	int ans_num = 1;	
@@ -194,8 +183,6 @@ int main()
 	ending[row-1][col-1] = 0;
 	
 	int is_end = row*col;
-	int n_row = row - 1;
-	int n_col = col - 1;
 	int key = 0;
 	int tmp;
 	int moved_count = 0;
@@ -217,8 +204,7 @@ int main()
 	                printf("¦¢%3d", puzzleNum[i][j]);
 	            }	
 	        }
-	        printf("¦¢");
-	        printf("\n");
+	        printf("¦¢\n");
 	        if(i == row-1)
 	        {
 	        	lastline(col);
@@ -264,23 +250,7 @@ int main()
 				}
 			}
 		}
-		if (key == DOWN)
-		{
-			for (int i = 0; i < row; i++)
-			{
-				for (int j = 0; j < col; j++)
-				{
-					if (puzzleNum[i][j] == 0 && i > 0)
-					{
-						tmp = puzzleNum[i][j];
-						puzzleNum[i][j] = puzzleNum[i - 1][j];
-						puzzleNum[i - 1][j] = tmp;
-						moved_count++;
-						break;
-					}
-				}
-			}
-		}
+		
 		if (key == UP)
 		{
 			for (int i = 0; i < row; i++)
@@ -298,6 +268,26 @@ int main()
 				}
 			}
 		}
+		
+		if (key == DOWN)
+		{
+			for (int i = 0; i < row; i++)
+			{
+				for (int j = 0; j < col; j++)
+				{
+					if (puzzleNum[i][j] == 0 && i > 0)
+					{
+						tmp = puzzleNum[i][j];
+						puzzleNum[i][j] = puzzleNum[i - 1][j];
+						puzzleNum[i - 1][j] = tmp;
+						moved_count++;
+						break;
+					}
+				}
+			}
+		}
+		
+		
 		is_end = row*col;
 		for(int i = 0; i < row; i++)
 		{
@@ -310,6 +300,8 @@ int main()
 			}
 		}
 	}
+	
+	system("cls");
 	firstline(col);	    
 	    for (int i = 0; i < row; i++)
 	    {
