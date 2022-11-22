@@ -11,12 +11,12 @@
 #define Q	113
 #define q	81
 
-void levelSelectMenu()//게임 레벨 선택 
+void levelSelectMenu()//게임 레벨 선택 화면  
 {
 	system("cls");
 	printf("\n\n\n");
 	printf("		   ┏━━━━━━━━━━━━━━━━━━━━━━━━┓\n");
-	printf("		   ┃      슬라이딩 퍼즐	    ┃\n");
+	printf("		   ┃     Sliding Puzzle     ┃\n");
 	printf("		   ┃                        ┃\n");
 	printf("		   ┃        1. 3 X 3        ┃\n");
 	printf("		   ┃                        ┃\n");
@@ -31,9 +31,9 @@ void levelSelectMenu()//게임 레벨 선택
 	printf("		   ┃        6. 종료         ┃\n");
 	printf("		   ┃                        ┃\n");
 	printf("		   ┗━━━━━━━━━━━━━━━━━━━━━━━━┛\n");
-	printf("			<<Press the number >>");
+	printf("		      <<Press the number >>");
 } 
-void firstline(int col)
+void firstline(int col) //퍼즐 시작 라인 
 {
 	if (col == 3)
 	{
@@ -49,7 +49,7 @@ void firstline(int col)
 	}
 }
 
-void midline(int col)
+void midline(int col) // 퍼즐 중간 라인 
 {
 	if (col == 3)
 	{
@@ -65,7 +65,7 @@ void midline(int col)
 	}
 }
 
-void lastline(int col)
+void lastline(int col) // 퍼즐 끝 라인  
 {
 	if (col == 3)
 	{
@@ -80,10 +80,10 @@ void lastline(int col)
 		printf("		   └━━━┴━━━┴━━━┴━━━┴━━━┘\n");
 	}
 }
-void how_to()
+void how_to() // 게임 설명  
 {
 	printf("\n");
-	printf("		키보드 방향키로 움직이기\n");
+	printf("		     방향키로 움직이기\n");
 	printf("   ↑ : 빈칸을 기준으로 아래쪽에 있는 숫자 빈칸으로 옮기기\n");
 	printf("   ← : 빈칸을 기준으로 오른쪽에 있는 숫자 빈칸으로 옮기기\n");
 	printf("   → : 빈칸을 기준으로 왼쪽에 있는 숫자 빈칸으로 옮기기\n");
@@ -93,18 +93,18 @@ void how_to()
 
 int main()
 {
-	system("title Sliding Puzzle");
-	system("mode con: cols=65 lines=25");
-	
-	CONSOLE_CURSOR_INFO cursorInfo = { 0, };
-	cursorInfo.bVisible = 0;
+	system("title Sliding Puzzle"); // 콘솔창 이름 설정  
+	system("mode con: cols=65 lines=25"); // 콘솔창 크기 설정  
+
+	CONSOLE_CURSOR_INFO cursorInfo = { 0, }; // 콘솔창 커서 깜박임 끄기  
+	cursorInfo.bVisible = 0; 
 	cursorInfo.dwSize = 1;
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
 	
 	int level;
 	Select:;
 	levelSelectMenu();
-	level = getch(); 
+	level = getch(); // 레벨 선택 입력 받기  
 	level -= '0';
 	
 	if(level < 1 || level > 6) goto Select;
@@ -137,14 +137,13 @@ int main()
 	}
 	if(level == 6)
 	{
-		return 0;
+		exit(0);
 	}
 	
 	srand((unsigned int)time(NULL));
 	
-		int puzzleNum[row][col] = {0};
-		int number = 1;
-		
+		int puzzleNum[row][col] = {0}; // 퍼즐 기본 값 생성  
+		int number = 1;		
 		for (int i = 0; i < row; i++)
 		{
 			for (int j = 0; j < col; j++)
@@ -153,10 +152,10 @@ int main()
 				number++;
 			}			
 		}
-		puzzleNum[row-1][col-1] = 0;
+		puzzleNum[row-1][col-1] = 0; // 마지막 제일 큰값 '0'으로 설정  
 		
 		int tmp;
-		for (int i = 0; i < 5000; i++)
+		for (int i = 0; i < 5000; i++) // 섞기  
 		{
 			int rand_num = rand() % 4;
 			if (rand_num == 0)
@@ -227,7 +226,7 @@ int main()
 			}
 		}
 		
-		for(int a = 0; a < col; a++)
+		for(int a = 0; a < col; a++) // 왼쪽으로 다 밀기  
 		{
 			for (int i = 0; i < row; i++)
 			{
@@ -242,7 +241,7 @@ int main()
 					}
 				}
 			}
-			for (int i = 0; i < row; i++)
+			for (int i = 0; i < row; i++) // 위쪽으로 다 밀기  
 			{
 				for (int j = 0; j < col; j++)
 				{
@@ -257,7 +256,7 @@ int main()
 			}
 		}
 	
-	int ending[row][col];
+	int ending[row][col]; // 답지 만들기  
 	int ans_num = 1;	
 	for(int i = 0; i < row; i++)
 	{
@@ -269,7 +268,7 @@ int main()
 	}
 	ending[row-1][col-1] = 0;
 	
-	int is_end = row*col;
+	int is_end = row*col; 
 	int key = 0;
 	int moved_count = 0;
 	int n_row = row - 1;
@@ -363,20 +362,21 @@ int main()
 				}
 		}			
 			
-			is_end = row*col;
-			for(int i = 0; i < row; i++)
+		is_end = row*col;
+		for(int i = 0; i < row; i++)
+		{
+			for(int j = 0; j < col; j++)
 			{
-				for(int j = 0; j < col; j++)
+				if(ending[i][j] == puzzleNum[i][j])
 				{
-					if(ending[i][j] == puzzleNum[i][j])
-					{
-						is_end--;
-					}
+					is_end--;
 				}
 			}
 		}
+	}
 	
 	system("cls");
+	printf("\n\n\n");
 	firstline(col);	    
 	    for (int i = 0; i < row; i++)
 	    {
